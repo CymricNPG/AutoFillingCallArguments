@@ -13,7 +13,14 @@ import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiCallExpression;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiParameter;
+import com.intellij.psi.PsiParameterList;
 import com.intellij.psi.infos.CandidateInfo;
 import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.psi.util.PsiUtilCore;
@@ -23,8 +30,12 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.util.*;
+import javax.swing.DefaultListModel;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.intellij.openapi.command.UndoConfirmationPolicy.DEFAULT;
@@ -36,7 +47,9 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
             return;
         }
 
-        ApplicationManager.getApplication().assertIsDispatchThread();
+        if (!ApplicationManager.getApplication().isDispatchThread()) {
+            return;
+        }
         PsiDocumentManager.getInstance(project).commitAllDocuments();
 
         final var psiMethods = resolveMethodFromCandidates(project, editor, psiElement);
@@ -54,7 +67,7 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
         // Create a popup dialog that displays the list of options
         final var methodsWrapped = psiMethods.stream()
                 .map(PsiMethodWrapper::new)
-                .collect(Collectors.toList());
+                .toList();
 
         final var model = new DefaultListModel<PsiMethodWrapper>();
         final var list = new JBList<>(model);
@@ -84,7 +97,10 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
         final var doc = editor.getDocument();
         int offset = editor.getCaretModel().getOffset();
         final var textUnderCaret = doc.getText(new TextRange(offset, offset + 1));
-        if (textUnderCaret.startsWith("(")) {
+        final var textLeftOfCaret = doc.getText(new TextRange(offset - 1, offset));
+        if (textLeftOfCaret.startsWith("(")) {
+            // do nothing
+        } else if (textUnderCaret.startsWith("(")) {
             offset++;
         } else if (!textUnderCaret.startsWith(")")) {
             offset--;
@@ -150,8 +166,7 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
                         .filter(PsiMethod.class::isInstance)
                         .map(PsiMethod.class::cast)
                         .filter(PsiMethod::hasParameters)
-                        .collect(Collectors.toList())
-        );
+                        .toList());
     }
 
     @NotNull
@@ -164,12 +179,7 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
         return handlers;
     }
 
-    private static class PsiMethodWrapper {
-        private final PsiMethod method;
-
-        public PsiMethodWrapper(final PsiMethod method) {
-            this.method = method;
-        }
+    private record PsiMethodWrapper(PsiMethod method) {
 
         @Override
         public String toString() {
