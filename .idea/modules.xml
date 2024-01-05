@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AutofillParameter.iml" filepath="$PROJECT_DIR$/.idea/modules/AutofillParameter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AutofillParameter.main.iml" filepath="$PROJECT_DIR$/.idea/modules/AutofillParameter.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AutofillParameter.test.iml" filepath="$PROJECT_DIR$/.idea/modules/AutofillParameter.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/de.kontext_e.idea.plugins.autofill.AutofillParameter.test.iml" filepath="$PROJECT_DIR$/.idea/modules/de.kontext_e.idea.plugins.autofill.AutofillParameter.test.iml" />
     </modules>
   </component>
 </project>

@@ -1,6 +1,7 @@
 package de.kontext_e.idea.plugins.autofill;
 
 import com.intellij.codeInsight.hint.ShowParameterInfoContext;
+import com.intellij.codeInsight.hint.api.impls.MethodParameterInfoHandler;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction;
 import com.intellij.lang.Language;
@@ -13,15 +14,7 @@ import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.PopupChooserBuilder;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiCallExpression;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiParameter;
-import com.intellij.psi.PsiParameterList;
-import com.intellij.psi.infos.CandidateInfo;
+import com.intellij.psi.*;
 import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.components.JBList;
@@ -30,12 +23,8 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.DefaultListModel;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import javax.swing.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.intellij.openapi.command.UndoConfirmationPolicy.DEFAULT;
@@ -160,11 +149,13 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
                         .map(handler -> handler.findElementForParameterInfo(context))
                         .filter(Objects::nonNull)
                         .flatMap(element -> Arrays.stream(context.getItemsToShow()))
-                        .filter(CandidateInfo.class::isInstance)
-                        .map(CandidateInfo.class::cast)
-                        .map(CandidateInfo::getElement)
-                        .filter(PsiMethod.class::isInstance)
-                        .map(PsiMethod.class::cast)
+                        .map(MethodParameterInfoHandler::tryGetMethodFromCandidate)
+                        .filter(Objects::nonNull)
+//                        .filter(CandidateInfo.class::isInstance)
+//                        .map(CandidateInfo.class::cast)
+//                        .map(CandidateInfo::getElement)
+//                        .filter(PsiMethod.class::isInstance)
+//                        .map(PsiMethod.class::cast)
                         .filter(PsiMethod::hasParameters)
                         .toList());
     }
