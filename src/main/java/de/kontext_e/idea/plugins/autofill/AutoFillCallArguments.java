@@ -54,9 +54,7 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
 
     private void insertParameters(final Project project, final Editor editor, final Collection<PsiMethod> psiMethods) {
         // Create a popup dialog that displays the list of options
-        final var methodsWrapped = psiMethods.stream()
-                .map(PsiMethodWrapper::new)
-                .toList();
+        final var methodsWrapped = psiMethods.stream().map(PsiMethodWrapper::new).toList();
 
         final var model = new DefaultListModel<PsiMethodWrapper>();
         final var list = new JBList<>(model);
@@ -64,18 +62,13 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
 
         final var builder = new PopupChooserBuilder<>(list);
 
-        builder.setItemChosenCallback(selectedOption ->
-                ApplicationManager.getApplication().invokeLater(() ->
-                        ApplicationManager.getApplication().runWriteAction(() -> {
-                            final var doc = editor.getDocument();
-                            CommandProcessor.getInstance().executeCommand(
-                                    project,
-                                    () -> insertParameters(editor, selectedOption.method),
-                                    "Add Auto Parameters",
-                                    null,
-                                    DEFAULT,
-                                    doc);
-                        })));
+        builder.setItemChosenCallback(
+                selectedOption -> ApplicationManager.getApplication().invokeLater(
+                        () -> ApplicationManager.getApplication().runWriteAction(
+                                () -> {
+                                    final var doc = editor.getDocument();
+                                    CommandProcessor.getInstance().executeCommand(project, () -> insertParameters(editor, selectedOption.method), "Add Auto Parameters", null, DEFAULT, doc);
+                                })));
 
         builder.createPopup().showInBestPositionFor(editor);
     }
@@ -146,16 +139,9 @@ public class AutoFillCallArguments extends PsiElementBaseIntentionAction impleme
 
         return DumbService.getInstance(project).computeWithAlternativeResolveEnabled(
                 () -> getParameterInfoHandlers(project, file, language).stream()
-                        .map(handler -> handler.findElementForParameterInfo(context))
-                        .filter(Objects::nonNull)
+                        .map(handler -> handler.findElementForParameterInfo(context)).filter(Objects::nonNull)
                         .flatMap(element -> Arrays.stream(context.getItemsToShow()))
-                        .map(MethodParameterInfoHandler::tryGetMethodFromCandidate)
-                        .filter(Objects::nonNull)
-//                        .filter(CandidateInfo.class::isInstance)
-//                        .map(CandidateInfo.class::cast)
-//                        .map(CandidateInfo::getElement)
-//                        .filter(PsiMethod.class::isInstance)
-//                        .map(PsiMethod.class::cast)
+                        .map(MethodParameterInfoHandler::tryGetMethodFromCandidate).filter(Objects::nonNull)
                         .filter(PsiMethod::hasParameters)
                         .toList());
     }

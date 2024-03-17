@@ -12,6 +12,10 @@
   ]]></description>
 
     <change-notes><![CDATA[
+     <h2>Version 1.2.1</h2>
+        <ul>
+        <li>Fix for IntelliJ 2023.3</li>
+        </ul>
        <h2>Version 1.2</h2>
         <ul>
         <li>When methods are overloaded, display a popup with the available options</li>
