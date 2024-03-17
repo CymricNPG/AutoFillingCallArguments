@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "de.kontext_e.idea.plugins.autofill"
-version = "1.2"
+version = "1.2.1"
 
 repositories {
     mavenCentral()

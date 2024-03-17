@@ -1,11 +1,12 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-  <id>de.kontext_e.idea.plugins.autofill</id>
-  <name>Auto filling Java call arguments</name>
-  <version>1.2</version>
+    <id>de.kontext_e.idea.plugins.autofill</id>
+    <name>Auto filling Java call arguments</name>
+    <version>1.2.1</version>
     <vendor email="j.nerche@kontext-e.de" url="http://www.kontext-e.de">Kontext E GmbH</vendor>
 
     <description><![CDATA[
+    WIP
     In source code, create a method or constructor call and place the cursor into the empty braces.
     Open the intentions drop down menu and select the "Auto fill call parameters"
   ]]></description>
