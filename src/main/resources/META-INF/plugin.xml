@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>de.kontext_e.idea.plugins.autofill</id>
     <name>Auto filling Java call arguments</name>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <vendor email="j.nerche@kontext-e.de" url="http://www.kontext-e.de">Kontext E GmbH</vendor>
 
     <description><![CDATA[
@@ -12,6 +12,10 @@
   ]]></description>
 
     <change-notes><![CDATA[
+      <h2>Version 1.2.1</h2>
+        <ul>
+        <li>Unofficial Version for IntelliJ 2024</li>
+        </ul>
      <h2>Version 1.2.1</h2>
         <ul>
         <li>Fix for IntelliJ 2023.3</li>

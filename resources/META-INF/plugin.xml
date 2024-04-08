@@ -1,15 +1,21 @@
 <idea-plugin>
-  <id>de.kontext_e.idea.plugins.autofill</id>
-  <name>Auto Filling Java Call Arguments</name>
-  <version>1.2</version>
-  <vendor email="j.nerche@kontext-e.de" url="http://www.kontext-e.de">Kontext E GmbH</vendor>
+    <id>de.kontext_e.idea.plugins.autofill</id>
+    <name>Auto Filling Java Call Arguments</name>
+    <version>1.2.2</version>
+    <vendor email="j.nerche@kontext-e.de" url="http://www.kontext-e.de">Kontext E GmbH</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
     In source code, create a method or constructor call and place the cursor into the empty braces.
     Open the intentions drop down menu and select the "Auto fill call parameters"
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
+    <h2>Version 1.2.2</h2>
+            <ul>
+          <li>
+          Unofficial version for IntelliJ 2024
+          </li>
+        </ul>
       <h2>Version 1.2</h2>
         <ul>
           <li>
@@ -28,31 +34,31 @@
           </ul>
           <br/>
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <!-- 193.7288.26 is 2019.3.5 -->
-  <idea-version since-build="193.7288.26"/>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <!-- 193.7288.26 is 2019.3.5 -->
+    <idea-version since-build="193.7288.26"/>
 
-  <depends>com.intellij.modules.platform</depends>
-  <depends>com.intellij.modules.java</depends>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <intentionAction>
-      <className>de.kontext_e.idea.plugins.autofill.AutoFillCallArguments</className>
-      <category>Other</category>
-      <descriptionDirectoryName>AutoFillCallArguments</descriptionDirectoryName>
-    </intentionAction>
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <intentionAction>
+            <className>de.kontext_e.idea.plugins.autofill.AutoFillCallArguments</className>
+            <category>Other</category>
+            <descriptionDirectoryName>AutoFillCallArguments</descriptionDirectoryName>
+        </intentionAction>
+    </extensions>
 
-  <project-components>
-    <component>
-      <implementation-class>de.kontext_e.idea.plugins.autofill.AutoFillCallArguments</implementation-class>
-    </component>
-  </project-components>
+    <project-components>
+        <component>
+            <implementation-class>de.kontext_e.idea.plugins.autofill.AutoFillCallArguments</implementation-class>
+        </component>
+    </project-components>
 
-  <actions>
-    <!-- Add your actions here -->
-  </actions>
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
 
 </idea-plugin>
